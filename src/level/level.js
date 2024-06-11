@@ -181,7 +181,7 @@ module.exports = app => app.component('level', {
 
       const resourceType = attributeFact.resourceType;
       const factType = 'attribute';
-      await axios.put('/.netlify/functions/tell', {
+      await axios.put('/api/tell', {
         sessionId: this.state.sessionId,
         factType,
         userId: this.userId,
@@ -223,7 +223,7 @@ module.exports = app => app.component('level', {
       try {
         const params = { ...fact };
         delete params._id;
-        await axios.put('/.netlify/functions/deleteFact', {
+        await axios.put('/api/delete-fact', {
           sessionId: this.state.sessionId,
           ...params
         }).then(res => res.data);
@@ -237,7 +237,7 @@ module.exports = app => app.component('level', {
     async deleteAllFacts() {
       this.deleteInProgress = true;
       try {
-        await axios.put('/.netlify/functions/clearContextFacts', {
+        await axios.put('/api/clear-context-facts', {
           sessionId: this.state.sessionId
         }).then(res => res.data);
         this.state.facts = [];
@@ -254,7 +254,7 @@ module.exports = app => app.component('level', {
       return this.state.results[index].pass ? '/images/check-green.svg' : '/images/error-red.svg';
     },
     async verifySolutionForLevel() {
-      const { player } = await axios.post('/.netlify/functions/verifySolutionForLevel', {
+      const { player } = await axios.post('/api/verify-solution-for-level', {
         sessionId: this.state.sessionId,
         level: this.state.level
       }).then(res => res.data);

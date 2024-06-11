@@ -1,11 +1,10 @@
 'use strict';
 
 const Archetype = require('archetype');
-const Log = require('../../db/log'); 
-const Player = require('../../db/player');
+const Log = require('../db/log'); 
+const Player = require('../db/player');
 const assert = require('assert');
-const connect = require('../../db/connect');
-const extrovert = require('extrovert');
+const connect = require('../db/connect');
 const { inspect } = require('util');
 
 const DeleteFactParams = new Archetype({
@@ -47,8 +46,7 @@ const DeleteFactParams = new Archetype({
   }
 }).compile('DeleteFactParams');
 
-module.exports = extrovert.toNetlifyFunction(deleteFact, null, 'deleteFact');
-module.exports.deleteFact = deleteFact;
+module.exports = deleteFact;
 
 async function deleteFact(params) {
   params = new DeleteFactParams(params);

@@ -1,12 +1,11 @@
 'use strict';
 
 const Archetype = require('archetype');
-const Log = require('../../db/log'); 
-const Player = require('../../db/player');
-const connect = require('../../db/connect');
-const extrovert = require('extrovert');
+const Log = require('../db/log'); 
+const Player = require('../db/player');
+const connect = require('../db/connect');
 const { inspect } = require('util');
-const oso = require('../../oso');
+const oso = require('../oso');
 
 const AuthorizeParams = new Archetype({
   sessionId: {
@@ -31,7 +30,7 @@ const AuthorizeParams = new Archetype({
   }
 }).compile('AuthorizeParams');
 
-module.exports = extrovert.toNetlifyFunction(async params => {
+module.exports = async function authorize(params) {
   params = new AuthorizeParams(params);
   const { sessionId } = params;
 
@@ -65,4 +64,4 @@ module.exports = extrovert.toNetlifyFunction(async params => {
 
     throw err;
   }
-}, null, 'authorize');
+};

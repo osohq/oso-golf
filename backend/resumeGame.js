@@ -1,10 +1,9 @@
 'use strict';
 
 const Archetype = require('archetype');
-const Log = require('../../db/log'); 
-const Player = require('../../db/player');
-const connect = require('../../db/connect');
-const extrovert = require('extrovert');
+const Log = require('../db/log'); 
+const Player = require('../db/player');
+const connect = require('../db/connect');
 const { inspect } = require('util');
 
 const ResumeGameParams = new Archetype({
@@ -14,7 +13,7 @@ const ResumeGameParams = new Archetype({
   }
 }).compile('ResumeGameParams');
 
-module.exports = extrovert.toNetlifyFunction(async params => {
+module.exports = async function resumeGame(params) {
   const { sessionId } = new ResumeGameParams(params);
 
   await connect();
@@ -41,4 +40,4 @@ module.exports = extrovert.toNetlifyFunction(async params => {
 
     throw err;
   }
-}, null, 'resumeGame');
+};

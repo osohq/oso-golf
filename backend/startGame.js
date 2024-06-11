@@ -1,12 +1,12 @@
 'use strict';
 
 const Archetype = require('archetype');
-const Log = require('../../db/log'); 
-const Player = require('../../db/player');
-const connect = require('../../db/connect');
+const Log = require('../db/log'); 
+const Player = require('../db/player');
+const connect = require('../db/connect');
 const extrovert = require('extrovert');
 const { inspect } = require('util');
-const oso = require('../../oso');
+const oso = require('../oso');
 
 const StartGameParams = new Archetype({
   sessionId: {
@@ -26,7 +26,7 @@ const StartGameParams = new Archetype({
   }
 }).compile('StartGameParams');
 
-module.exports = extrovert.toNetlifyFunction(async params => {
+module.exports = async function startGame(params) {
   const { sessionId, name, email, password } = new StartGameParams(params);
 
   if (process.env.OSO_GOLF_PASSWORD && process.env.OSO_GOLF_PASSWORD !== password) {
@@ -80,4 +80,4 @@ module.exports = extrovert.toNetlifyFunction(async params => {
 
     throw err;
   }
-}, null, 'startGame');
+};

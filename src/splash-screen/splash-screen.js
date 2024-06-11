@@ -33,7 +33,7 @@ module.exports = app => app.component('splash-screen', {
         return;
       }
 
-      const { player } = await axios.post('/.netlify/functions/startGame', {
+      const { player } = await axios.post('/api/start-game', {
         sessionId: this.state.sessionId,
         name: this.name,
         email: this.email,

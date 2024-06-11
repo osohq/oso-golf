@@ -1,9 +1,9 @@
 'use strict';
 
 const Archetype = require('archetype');
-const Log = require('../../db/log'); 
-const Player = require('../../db/player');
-const connect = require('../../db/connect');
+const Log = require('../db/log'); 
+const Player = require('../db/player');
+const connect = require('../db/connect');
 const extrovert = require('extrovert');
 const { inspect } = require('util');
 
