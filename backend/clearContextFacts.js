@@ -4,7 +4,6 @@ const Archetype = require('archetype');
 const Log = require('../db/log'); 
 const Player = require('../db/player');
 const connect = require('../db/connect');
-const extrovert = require('extrovert');
 const { inspect } = require('util');
 
 const ClearContextFactsParams = new Archetype({
@@ -14,7 +13,7 @@ const ClearContextFactsParams = new Archetype({
   }
 }).compile('ClearContextFactsParams');
 
-module.exports = extrovert.toNetlifyFunction(async params => {
+module.exports = async function clearContextFacts(params) {
   params = new ClearContextFactsParams(params);
 
   await connect();
@@ -43,4 +42,4 @@ module.exports = extrovert.toNetlifyFunction(async params => {
 
     throw err;
   }
-}, null, 'clearContextFacts');
+};
