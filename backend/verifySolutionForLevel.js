@@ -1,9 +1,11 @@
 'use strict';
 
 const Archetype = require('archetype');
+const Log = require('../db/log');
 const Player = require('../db/player');
 const assert = require('assert');
 const connect = require('../db/connect');
+const { inspect } = require('util');
 const levels = require('../levels');
 const oso = require('../oso');
 
@@ -26,62 +28,46 @@ module.exports = async function handler(params) {
   const { sessionId, level } = new VerifySolutionForLevelParams(params);
 
   await connect();
+  
+  await Log.info(`Verify solution ${level} ${inspect(params)}`, { ...params, function: 'verifySolutionForLevel' });
 
-  const player = await Player.findOne({ sessionId }).orFail();
+  try {
+    const player = await Player.findOne({ sessionId }).orFail();
 
-  const constraints = constraintsByLevel[level - 1];
-  let pass = true;
-  for (const constraint of constraints) {
-    const resourceId = constraint.resourceType === 'Repository' ?
-      `${sessionId}_${constraint.resourceId}` :
-      constraint.resourceId;
-    const authorized = await oso.authorize(
-      { type: 'User', id: `${sessionId}_${constraint.userId}` },
-      constraint.action,
-      { type: constraint.resourceType, id: resourceId }
-    );
-    if (authorized !== !constraint.shouldFail) {
-      pass = false;
+    const constraints = constraintsByLevel[level - 1];
+    let pass = true;
+    for (const constraint of constraints) {
+      const authorized = await oso.authorize(
+        { type: 'User', id: constraint.userId },
+        constraint.action,
+        { type: constraint.resourceType, id: constraint.resourceId },
+        player.contextFacts
+      );
+      if (authorized !== !constraint.shouldFail) {
+        pass = false;
+      }
     }
-  }
-  if (!pass) {
-    throw new Error('Did not pass');
-  }
+    if (!pass) {
+      throw new Error('Did not pass');
+    }
 
-  const userIds = new Set(constraints.map(constraint => constraint.userId));
-  const facts = [];
-  for (const userId of userIds) {
-    const factsForUser = await oso.get(
-      'has_role',
-      { type: 'User', id: `${sessionId}_${userId}` },
-      null,
-      null
-    );
-    facts.push(...factsForUser);
+    player.levelsCompleted = player.levelsCompleted + 1;
+    player.parPerLevel[level - 1] = player.contextFacts.length - parByLevel[level - 1];
+    player.par = player.parPerLevel.reduce((sum, v) => sum + v);
+    player.gameplayTimeMS = Date.now() - player.startTime.valueOf();
+    await player.save();
+    
+    return { player };
+  } catch (err) {
+    await Log.error(`verifySolutionForLevel: ${err.message}`, {
+      ...params,
+      function: 'verifySolutionForLevel',
+      message: err.message,
+      stack: err.stack,
+      err: inspect(err)
+    });
+
+    throw err;
   }
-  for (const repo of ['osohq/sample-apps', 'osohq/nodejs-client', 'osohq/configs']) {
-    let factsForRepo = await oso.get(
-      'is_protected',
-      { type: 'Repository', id: `${sessionId}_${repo}` },
-      null,
-      null
-    );
-    facts.push(...factsForRepo);
-
-    factsForRepo = await oso.get(
-      'is_public',
-      { type: 'Repository', id: `${sessionId}_${repo}` },
-      null,
-      null
-    );
-    facts.push(...factsForRepo);
-  }
-
-  player.levelsCompleted = player.levelsCompleted + 1;
-  player.parPerLevel[level - 1] = facts.length - parByLevel[level - 1];
-  player.par = player.parPerLevel.reduce((sum, v) => sum + v);
-  player.gameplayTimeMS = Date.now() - player.startTime.valueOf();
-  await player.save();
-
-  return { player };
 };
+
