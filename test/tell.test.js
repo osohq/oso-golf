@@ -4,21 +4,16 @@ require('./setup');
 
 const Player = require('../db/player');
 const assert = require('assert');
-const connect = require('../db/connect');
-const { after, before, beforeEach, describe, it } = require('node:test');
-const oso = require('../oso');
-const sinon = require('sinon');
 const tell = require('../backend/tell');
 
 describe('tell', function() {
   let player;
 
   before(async function() {
-    await connect();
     await Player.deleteMany({});
 
     player = await Player.create({
-      sessionId: 'test',
+      sessionId: 'test-tell',
       name: 'John Smith',
       email: 'john@gmail.com',
       contextFacts: []
@@ -32,8 +27,8 @@ describe('tell', function() {
   });
 
   after(async function() {
-    const conn = await connect();
-    await conn.close();
+    //const conn = await connect();
+    //await conn.close();
   });
 
   it('adds has_role facts to contextFacts', async function() {
