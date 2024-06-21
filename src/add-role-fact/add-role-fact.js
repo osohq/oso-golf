@@ -1,5 +1,6 @@
 'use strict';
 
+const BaseComponent = require('../base-component');
 const axios = require('axios');
 const bson = require('bson');
 const runTests = require('../_methods/runTests');
@@ -13,7 +14,13 @@ const allRolesSet = new Set([
 module.exports = app => app.component('add-role-fact', {
   inject: ['state'],
   props: ['actorType'],
-  data: () => ({ userId: '', role: '', resourceType: '', resourceId: '' }),
+  extends: BaseComponent,
+  data: () => ({
+    userId: '',
+    role: '',
+    resourceType: '',
+    resourceId: ''
+  }),
   template,
   computed: {
     allUsers() {
@@ -80,7 +87,7 @@ module.exports = app => app.component('add-role-fact', {
         role: this.role,
         resourceType: this.resourceType,
         resourceId: this.resourceId
-      }).then(res => res.data);
+      });
       this.state.facts.push({
         _id: new bson.ObjectId(),
         factType,

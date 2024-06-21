@@ -4,9 +4,11 @@ const axios = require('axios');
 
 module.exports = asyncQueue(runTests);
 
-window.runTests = runTests;
+if (typeof window !== 'undefined') {
+  window.runTests = runTests;
+}
 
-async function runTests(state = window.state) {
+async function runTests(state) {
   state.results = [];
   state.showNextLevelButton = null;
   let passed = true;

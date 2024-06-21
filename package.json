@@ -7,7 +7,8 @@
     "tailwind:watch": "tailwindcss -o ./public/style.css --watch",
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "mocha ./test/*.test.js"
   },
   "dependencies": {
     "archetype": "0.13.0",
@@ -28,6 +29,9 @@
   },
   "devDependencies": {
     "@masteringjs/eslint-config": "0.0.1",
-    "@mongoosejs/studio": "0.0.22"
+    "@mongoosejs/studio": "0.0.22",
+    "dotenv": "16.4.5",
+    "mocha": "10.4.0",
+    "sinon": "18.0.0"
   }
 }
