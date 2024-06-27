@@ -11,7 +11,7 @@ module.exports = async function connect() {
 
   conn = mongoose.connection;
   await mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {
-    serverSelectionTimeoutMS: 4000
+    serverSelectionTimeoutMS: 4000,
   });
 
   return conn;

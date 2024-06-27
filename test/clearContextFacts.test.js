@@ -6,21 +6,17 @@ const Player = require('../db/player');
 const assert = require('assert');
 const clearContextFacts = require('../backend/clearContextFacts');
 
-describe('clearContextFacts', function() {
-  before(async function() {
+describe('clearContextFacts', function () {
+  before(async function () {
     await Player.deleteMany({});
   });
 
-  it('empties the player\'s contextFacts by sessionId', async function() {
+  it("empties the player's contextFacts by sessionId", async function () {
     const { _id, sessionId } = await Player.create({
       sessionId: 'test-clearContextFacts',
       name: 'John Smith',
       email: 'john@gmail.com',
-      contextFacts: [[
-        'has_role',
-        { type: 'User', id: 'alice' },
-        'superadmin'
-      ]]
+      contextFacts: [['has_role', { type: 'User', id: 'alice' }, 'superadmin']],
     });
 
     await clearContextFacts({ sessionId });

@@ -4,9 +4,8 @@ module.exports = {
   mode: 'jit',
   content: ['./src/**/*.html'],
   corePlugins: {
-    container: true 
+    container: true,
   },
-  plugins: [], 
-  theme: {
-  }
+  plugins: [],
+  theme: {},
 };

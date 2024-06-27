@@ -2,6 +2,7 @@
 
 const template = require('./oso-footer.html');
 
-module.exports = app => app.component('oso-footer', {
-  template
-});
+module.exports = (app) =>
+  app.component('oso-footer', {
+    template,
+  });

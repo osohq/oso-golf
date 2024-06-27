@@ -10,42 +10,46 @@ const { inspect } = require('util');
 const TellParams = new Archetype({
   sessionId: {
     $type: 'string',
-    $required: true
+    $required: true,
   },
   factType: {
     $type: 'string',
     $required: true,
-    $enum: ['role', 'attribute']
+    $enum: ['role', 'attribute'],
   },
   actorType: {
     $type: 'string',
     $required: true,
-    $default: 'User'
+    $default: 'User',
   },
   userId: {
     $type: 'string',
-    $validate: (v, type, doc) => assert.ok(v != null || doc.factType !== 'role')
+    $validate: (v, type, doc) =>
+      assert.ok(v != null || doc.factType !== 'role'),
   },
   role: {
     $type: 'string',
-    $validate: (v, type, doc) => assert.ok(v != null || doc.factType !== 'role')
+    $validate: (v, type, doc) =>
+      assert.ok(v != null || doc.factType !== 'role'),
   },
   resourceType: {
     $type: 'string',
-    $required: (doc) => doc.role !== 'superadmin'
+    $required: (doc) => doc.role !== 'superadmin',
   },
   resourceId: {
     $type: 'string',
-    $required: (doc) => doc.role !== 'superadmin'
+    $required: (doc) => doc.role !== 'superadmin',
   },
   attribute: {
     $type: 'string',
-    $validate: (v, type, doc) => assert.ok(v != null || doc.factType !== 'attribute')
+    $validate: (v, type, doc) =>
+      assert.ok(v != null || doc.factType !== 'attribute'),
   },
   attributeValue: {
     $type: 'string',
-    $validate: (v, type, doc) => assert.ok(v != null || doc.factType !== 'attribute')
-  }
+    $validate: (v, type, doc) =>
+      assert.ok(v != null || doc.factType !== 'attribute'),
+  },
 }).compile('TellParams');
 
 module.exports = async function tell(params) {
@@ -64,33 +68,33 @@ module.exports = async function tell(params) {
         player.contextFacts.push([
           'has_role',
           { type: params.actorType, id: params.userId },
-          params.role
+          params.role,
         ]);
       } else {
         player.contextFacts.push([
           'has_role',
           { type: params.actorType, id: params.userId },
           params.role,
-          { type: params.resourceType, id: params.resourceId }
+          { type: params.resourceType, id: params.resourceId },
         ]);
       }
     } else if (params.attribute === 'has_default_role') {
       player.contextFacts.push([
         params.attribute,
         { type: params.resourceType, id: params.resourceId },
-        params.attributeValue
+        params.attributeValue,
       ]);
     } else if (params.attribute === 'has_group') {
       player.contextFacts.push([
         params.attribute,
         { type: params.resourceType, id: params.resourceId },
-        { type: 'Group', id: params.attributeValue }
+        { type: 'Group', id: params.attributeValue },
       ]);
     } else {
       player.contextFacts.push([
         params.attribute,
         { type: params.resourceType, id: params.resourceId },
-        { type: 'Boolean', id: params.attributeValue }
+        { type: 'Boolean', id: params.attributeValue },
       ]);
     }
 
@@ -103,7 +107,7 @@ module.exports = async function tell(params) {
       function: 'tell',
       message: err.message,
       stack: err.stack,
-      err: inspect(err)
+      err: inspect(err),
     });
 
     throw err;

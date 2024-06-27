@@ -4,8 +4,18 @@ const dedent = require('dedent');
 
 const level1 = {
   constraints: [
-    { userId: 'Alice', action: 'read', resourceType: 'Organization', resourceId: 'osohq' },
-    { userId: 'Anthony', action: 'add_member', resourceType: 'Organization', resourceId: 'osohq' }
+    {
+      userId: 'Alice',
+      action: 'read',
+      resourceType: 'Organization',
+      resourceId: 'osohq',
+    },
+    {
+      userId: 'Anthony',
+      action: 'add_member',
+      resourceType: 'Organization',
+      resourceId: 'osohq',
+    },
   ],
   par: 2,
   polarCode: dedent(`
@@ -32,15 +42,36 @@ const level1 = {
   description: dedent(`
   The basic logic of RBAC is: "a user has a permission if they are granted a role and the role grants that permission".
   Add roles to users to satisfy the below constraints.
-  `)
+  `),
 };
 
 const level2 = {
   constraints: [
-    { userId: 'Bob', action: 'read', resourceType: 'Organization', resourceId: 'osohq' },
-    { userId: 'Bob', action: 'add_member', resourceType: 'Organization', resourceId: 'osohq' },
-    { userId: 'Bill', action: 'read', resourceType: 'Organization', resourceId: 'osohq' },
-    { userId: 'Bill', action: 'add_member', resourceType: 'Organization', resourceId: 'osohq', shouldFail: true }
+    {
+      userId: 'Bob',
+      action: 'read',
+      resourceType: 'Organization',
+      resourceId: 'osohq',
+    },
+    {
+      userId: 'Bob',
+      action: 'add_member',
+      resourceType: 'Organization',
+      resourceId: 'osohq',
+    },
+    {
+      userId: 'Bill',
+      action: 'read',
+      resourceType: 'Organization',
+      resourceId: 'osohq',
+    },
+    {
+      userId: 'Bill',
+      action: 'add_member',
+      resourceType: 'Organization',
+      resourceId: 'osohq',
+      shouldFail: true,
+    },
   ],
   par: 2,
   polarCode: dedent(`
@@ -66,15 +97,36 @@ const level2 = {
   repositories: [],
   description: dedent(`
   For this hole, remember that admins inherit all member permissions!
-  `)
+  `),
 };
 
 const level3 = {
   constraints: [
-    { userId: 'Charlie', action: 'write', resourceType: 'Repository', resourceId: 'osohq/sample-apps' },
-    { userId: 'Charlie', action: 'write', resourceType: 'Repository', resourceId: 'osohq/nodejs-client', shouldFail: true },
-    { userId: 'Cameron', action: 'write', resourceType: 'Repository', resourceId: 'osohq/sample-apps' },
-    { userId: 'Cameron', action: 'write', resourceType: 'Repository', resourceId: 'osohq/nodejs-client' }
+    {
+      userId: 'Charlie',
+      action: 'write',
+      resourceType: 'Repository',
+      resourceId: 'osohq/sample-apps',
+    },
+    {
+      userId: 'Charlie',
+      action: 'write',
+      resourceType: 'Repository',
+      resourceId: 'osohq/nodejs-client',
+      shouldFail: true,
+    },
+    {
+      userId: 'Cameron',
+      action: 'write',
+      resourceType: 'Repository',
+      resourceId: 'osohq/sample-apps',
+    },
+    {
+      userId: 'Cameron',
+      action: 'write',
+      resourceType: 'Repository',
+      resourceId: 'osohq/nodejs-client',
+    },
   ],
   par: 3,
   polarCode: dedent(`
@@ -111,17 +163,49 @@ const level3 = {
   description: dedent(`
   Now let's add in a new resource type: repositories.
   Every repository belongs to an organization, and users can derive permissions from roles on a Repository or an Organization.
-  `)
+  `),
 };
 
 const level4 = {
   constraints: [
-    { userId: 'Desmond', action: 'add_member', resourceType: 'Organization', resourceId: 'osohq' },
-    { userId: 'Desmond', action: 'add_member', resourceType: 'Organization', resourceId: 'acme' },
-    { userId: 'Daisy', action: 'add_member', resourceType: 'Organization', resourceId: 'osohq' },
-    { userId: 'Daisy', action: 'add_member', resourceType: 'Organization', resourceId: 'acme', shouldFail: true },
-    { userId: 'Dean', action: 'add_member', resourceType: 'Organization', resourceId: 'osohq', shouldFail: true },
-    { userId: 'Dean', action: 'add_member', resourceType: 'Organization', resourceId: 'acme' }
+    {
+      userId: 'Desmond',
+      action: 'add_member',
+      resourceType: 'Organization',
+      resourceId: 'osohq',
+    },
+    {
+      userId: 'Desmond',
+      action: 'add_member',
+      resourceType: 'Organization',
+      resourceId: 'acme',
+    },
+    {
+      userId: 'Daisy',
+      action: 'add_member',
+      resourceType: 'Organization',
+      resourceId: 'osohq',
+    },
+    {
+      userId: 'Daisy',
+      action: 'add_member',
+      resourceType: 'Organization',
+      resourceId: 'acme',
+      shouldFail: true,
+    },
+    {
+      userId: 'Dean',
+      action: 'add_member',
+      resourceType: 'Organization',
+      resourceId: 'osohq',
+      shouldFail: true,
+    },
+    {
+      userId: 'Dean',
+      action: 'add_member',
+      resourceType: 'Organization',
+      resourceId: 'acme',
+    },
   ],
   par: 4,
   polarCode: dedent(`
@@ -153,17 +237,49 @@ const level4 = {
   description: dedent(`
   You can also have global roles that can apply to all resources.
   In this hole, take advantage of the superadmin role
-  `)
+  `),
 };
 
 const level5 = {
   constraints: [
-    { userId: 'Elaine', action: 'read', resourceType: 'Repository', resourceId: 'osohq/sample-apps' },
-    { userId: 'Elaine', action: 'read', resourceType: 'Repository', resourceId: 'osohq/configs' },
-    { userId: 'Emma', action: 'read', resourceType: 'Repository', resourceId: 'osohq/sample-apps' },
-    { userId: 'Emma', action: 'read', resourceType: 'Repository', resourceId: 'osohq/configs', shouldFail: true },
-    { userId: 'Ellis', action: 'read', resourceType: 'Repository', resourceId: 'osohq/sample-apps' },
-    { userId: 'Ellis', action: 'read', resourceType: 'Repository', resourceId: 'osohq/configs', shouldFail: true }
+    {
+      userId: 'Elaine',
+      action: 'read',
+      resourceType: 'Repository',
+      resourceId: 'osohq/sample-apps',
+    },
+    {
+      userId: 'Elaine',
+      action: 'read',
+      resourceType: 'Repository',
+      resourceId: 'osohq/configs',
+    },
+    {
+      userId: 'Emma',
+      action: 'read',
+      resourceType: 'Repository',
+      resourceId: 'osohq/sample-apps',
+    },
+    {
+      userId: 'Emma',
+      action: 'read',
+      resourceType: 'Repository',
+      resourceId: 'osohq/configs',
+      shouldFail: true,
+    },
+    {
+      userId: 'Ellis',
+      action: 'read',
+      resourceType: 'Repository',
+      resourceId: 'osohq/sample-apps',
+    },
+    {
+      userId: 'Ellis',
+      action: 'read',
+      resourceType: 'Repository',
+      resourceId: 'osohq/configs',
+      shouldFail: true,
+    },
   ],
   par: 4,
   polarCode: dedent(`
@@ -205,17 +321,50 @@ const level5 = {
   Roles aren't the only type of fact you can add in Oso Cloud.
   You can also add attributes to resources.
   For this hole, use the is_public fact.
-  `)
+  `),
 };
 
 const level6 = {
   constraints: [
-    { userId: 'Francesca', action: 'delete', resourceType: 'Repository', resourceId: 'osohq/sample-apps' },
-    { userId: 'Francesca', action: 'delete', resourceType: 'Repository', resourceId: 'osohq/configs', shouldFail: true },
-    { userId: 'Francesca', action: 'write', resourceType: 'Repository', resourceId: 'osohq/nodejs-client' },
-    { userId: 'Finn', action: 'read', resourceType: 'Repository', resourceId: 'osohq/configs', shouldFail: true },
-    { userId: 'Felix', action: 'delete', resourceType: 'Repository', resourceId: 'osohq/sample-apps' },
-    { userId: 'Felix', action: 'delete', resourceType: 'Repository', resourceId: 'osohq/configs', shouldFail: true }
+    {
+      userId: 'Francesca',
+      action: 'delete',
+      resourceType: 'Repository',
+      resourceId: 'osohq/sample-apps',
+    },
+    {
+      userId: 'Francesca',
+      action: 'delete',
+      resourceType: 'Repository',
+      resourceId: 'osohq/configs',
+      shouldFail: true,
+    },
+    {
+      userId: 'Francesca',
+      action: 'write',
+      resourceType: 'Repository',
+      resourceId: 'osohq/nodejs-client',
+    },
+    {
+      userId: 'Finn',
+      action: 'read',
+      resourceType: 'Repository',
+      resourceId: 'osohq/configs',
+      shouldFail: true,
+    },
+    {
+      userId: 'Felix',
+      action: 'delete',
+      resourceType: 'Repository',
+      resourceId: 'osohq/sample-apps',
+    },
+    {
+      userId: 'Felix',
+      action: 'delete',
+      resourceType: 'Repository',
+      resourceId: 'osohq/configs',
+      shouldFail: true,
+    },
   ],
   par: 5,
   polarCode: dedent(`
@@ -258,18 +407,56 @@ const level6 = {
   repositories: ['osohq/sample-apps', 'osohq/nodejs-client', 'osohq/configs'],
   description: dedent(`
   A repo can only be deleted if it is not "protected"
-  `)
+  `),
 };
 
 const level7 = {
   constraints: [
-    { userId: 'Gary', action: 'write', resourceType: 'Repository', resourceId: 'osohq/sample-apps' },
-    { userId: 'Gary', action: 'write', resourceType: 'Repository', resourceId: 'osohq/nodejs-client' },
-    { userId: 'Gary', action: 'delete', resourceType: 'Repository', resourceId: 'osohq/nodejs-client', shouldFail: true },
-    { userId: 'Gabriella', action: 'write', resourceType: 'Repository', resourceId: 'osohq/sample-apps' },
-    { userId: 'Gabriella', action: 'add_member', resourceType: 'Organization', resourceId: 'osohq', shouldFail: true },
-    { userId: 'George', action: 'write', resourceType: 'Repository', resourceId: 'osohq/nodejs-client' },
-    { userId: 'George', action: 'add_member', resourceType: 'Organization', resourceId: 'osohq', shouldFail: true }
+    {
+      userId: 'Gary',
+      action: 'write',
+      resourceType: 'Repository',
+      resourceId: 'osohq/sample-apps',
+    },
+    {
+      userId: 'Gary',
+      action: 'write',
+      resourceType: 'Repository',
+      resourceId: 'osohq/nodejs-client',
+    },
+    {
+      userId: 'Gary',
+      action: 'delete',
+      resourceType: 'Repository',
+      resourceId: 'osohq/nodejs-client',
+      shouldFail: true,
+    },
+    {
+      userId: 'Gabriella',
+      action: 'write',
+      resourceType: 'Repository',
+      resourceId: 'osohq/sample-apps',
+    },
+    {
+      userId: 'Gabriella',
+      action: 'add_member',
+      resourceType: 'Organization',
+      resourceId: 'osohq',
+      shouldFail: true,
+    },
+    {
+      userId: 'George',
+      action: 'write',
+      resourceType: 'Repository',
+      resourceId: 'osohq/nodejs-client',
+    },
+    {
+      userId: 'George',
+      action: 'add_member',
+      resourceType: 'Organization',
+      resourceId: 'osohq',
+      shouldFail: true,
+    },
   ],
   par: 5,
   polarCode: dedent(`
@@ -318,20 +505,68 @@ const level7 = {
   repositories: ['osohq/sample-apps', 'osohq/nodejs-client', 'osohq/configs'],
   description: dedent(`
   Make use of has_default_role to add a default role to all members of an Organization.
-  `)
+  `),
 };
 
 const level8 = {
   constraints: [
-    { userId: 'Henry', action: 'write', resourceType: 'Repository', resourceId: 'osohq/sample-apps' },
-    { userId: 'Henry', action: 'write', resourceType: 'Repository', resourceId: 'osohq/nodejs-client' },
-    { userId: 'Henry', action: 'write', resourceType: 'Repository', resourceId: 'osohq/configs', shouldFail: true },
-    { userId: 'Heather', action: 'write', resourceType: 'Repository', resourceId: 'osohq/sample-apps' },
-    { userId: 'Heather', action: 'write', resourceType: 'Repository', resourceId: 'osohq/nodejs-client' },
-    { userId: 'Heather', action: 'write', resourceType: 'Repository', resourceId: 'osohq/configs', shouldFail: true },
-    { userId: 'Holly', action: 'write', resourceType: 'Repository', resourceId: 'osohq/sample-apps' },
-    { userId: 'Holly', action: 'write', resourceType: 'Repository', resourceId: 'osohq/nodejs-client' },
-    { userId: 'Holly', action: 'write', resourceType: 'Repository', resourceId: 'osohq/configs', shouldFail: true }
+    {
+      userId: 'Henry',
+      action: 'write',
+      resourceType: 'Repository',
+      resourceId: 'osohq/sample-apps',
+    },
+    {
+      userId: 'Henry',
+      action: 'write',
+      resourceType: 'Repository',
+      resourceId: 'osohq/nodejs-client',
+    },
+    {
+      userId: 'Henry',
+      action: 'write',
+      resourceType: 'Repository',
+      resourceId: 'osohq/configs',
+      shouldFail: true,
+    },
+    {
+      userId: 'Heather',
+      action: 'write',
+      resourceType: 'Repository',
+      resourceId: 'osohq/sample-apps',
+    },
+    {
+      userId: 'Heather',
+      action: 'write',
+      resourceType: 'Repository',
+      resourceId: 'osohq/nodejs-client',
+    },
+    {
+      userId: 'Heather',
+      action: 'write',
+      resourceType: 'Repository',
+      resourceId: 'osohq/configs',
+      shouldFail: true,
+    },
+    {
+      userId: 'Holly',
+      action: 'write',
+      resourceType: 'Repository',
+      resourceId: 'osohq/sample-apps',
+    },
+    {
+      userId: 'Holly',
+      action: 'write',
+      resourceType: 'Repository',
+      resourceId: 'osohq/nodejs-client',
+    },
+    {
+      userId: 'Holly',
+      action: 'write',
+      resourceType: 'Repository',
+      resourceId: 'osohq/configs',
+      shouldFail: true,
+    },
   ],
   par: 6,
   polarCode: dedent(`
@@ -379,22 +614,81 @@ const level8 = {
   repositories: ['osohq/sample-apps', 'osohq/nodejs-client', 'osohq/configs'],
   description: dedent(`
   Users can also belong to groups, which can have multiple roles. Group membership is just an attribute. Add some users and roles to the "superstars" group to complete this hole. "has_group" is just an attribute on users.
-  `)
+  `),
 };
 
 const level9 = {
   constraints: [
-    { userId: 'Isabel', action: 'write', resourceType: 'Repository', resourceId: 'osohq/sample-apps' },
-    { userId: 'Isabel', action: 'read', resourceType: 'Repository', resourceId: 'acme/website' },
-    { userId: 'Isabel', action: 'write', resourceType: 'Repository', resourceId: 'osohq/nodejs-client', shouldFail: true },
-    { userId: 'Ian', action: 'write', resourceType: 'Repository', resourceId: 'osohq/sample-apps' },
-    { userId: 'Ian', action: 'read', resourceType: 'Repository', resourceId: 'acme/website' },
-    { userId: 'Ian', action: 'write', resourceType: 'Repository', resourceId: 'osohq/nodejs-client', shouldFail: true },
-    { userId: 'Ingrid', action: 'write', resourceType: 'Repository', resourceId: 'osohq/sample-apps' },
-    { userId: 'Ingrid', action: 'read', resourceType: 'Repository', resourceId: 'acme/website' },
-    { userId: 'Ingrid', action: 'write', resourceType: 'Repository', resourceId: 'osohq/nodejs-client', shouldFail: true },
-    { userId: 'Idris', action: 'read', resourceType: 'Repository', resourceId: 'acme/website', shouldFail: true },
-    { userId: 'Idris', action: 'write', resourceType: 'Repository', resourceId: 'osohq/sample-apps' }
+    {
+      userId: 'Isabel',
+      action: 'write',
+      resourceType: 'Repository',
+      resourceId: 'osohq/sample-apps',
+    },
+    {
+      userId: 'Isabel',
+      action: 'read',
+      resourceType: 'Repository',
+      resourceId: 'acme/website',
+    },
+    {
+      userId: 'Isabel',
+      action: 'write',
+      resourceType: 'Repository',
+      resourceId: 'osohq/nodejs-client',
+      shouldFail: true,
+    },
+    {
+      userId: 'Ian',
+      action: 'write',
+      resourceType: 'Repository',
+      resourceId: 'osohq/sample-apps',
+    },
+    {
+      userId: 'Ian',
+      action: 'read',
+      resourceType: 'Repository',
+      resourceId: 'acme/website',
+    },
+    {
+      userId: 'Ian',
+      action: 'write',
+      resourceType: 'Repository',
+      resourceId: 'osohq/nodejs-client',
+      shouldFail: true,
+    },
+    {
+      userId: 'Ingrid',
+      action: 'write',
+      resourceType: 'Repository',
+      resourceId: 'osohq/sample-apps',
+    },
+    {
+      userId: 'Ingrid',
+      action: 'read',
+      resourceType: 'Repository',
+      resourceId: 'acme/website',
+    },
+    {
+      userId: 'Ingrid',
+      action: 'write',
+      resourceType: 'Repository',
+      resourceId: 'osohq/nodejs-client',
+      shouldFail: true,
+    },
+    {
+      userId: 'Idris',
+      action: 'read',
+      resourceType: 'Repository',
+      resourceId: 'acme/website',
+      shouldFail: true,
+    },
+    {
+      userId: 'Idris',
+      action: 'write',
+      resourceType: 'Repository',
+      resourceId: 'osohq/sample-apps',
+    },
   ],
   par: 8,
   polarCode: dedent(`
@@ -466,10 +760,15 @@ const level9 = {
   allowedRoles: ['admin', 'member', 'reader', 'editor'],
   organizations: ['osohq', 'acme'],
   groups: ['superstars'],
-  repositories: ['osohq/sample-apps', 'osohq/nodejs-client', 'osohq/configs', 'acme/website'],
+  repositories: [
+    'osohq/sample-apps',
+    'osohq/nodejs-client',
+    'osohq/configs',
+    'acme/website',
+  ],
   description: dedent(`
   Tie it all together to solve this tricky one :)
-  `)
+  `),
 };
 
 module.exports = [
@@ -481,5 +780,5 @@ module.exports = [
   level6,
   level7,
   level8,
-  level9
+  level9,
 ];

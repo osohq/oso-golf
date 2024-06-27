@@ -12,24 +12,27 @@ const oso = require('../oso');
 const VerifySolutionForLevelParams = new Archetype({
   sessionId: {
     $type: 'string',
-    $required: true
+    $required: true,
   },
   level: {
     $type: 'number',
     $required: true,
-    $validate: v => assert.ok(v > 0 && v <= levels.length)
-  }
+    $validate: (v) => assert.ok(v > 0 && v <= levels.length),
+  },
 }).compile('VerifySolutionForLevelParams');
 
-const constraintsByLevel = levels.map(level => level.constraints);
-const parByLevel = levels.map(level => level.par);
+const constraintsByLevel = levels.map((level) => level.constraints);
+const parByLevel = levels.map((level) => level.par);
 
 module.exports = async function handler(params) {
   const { sessionId, level } = new VerifySolutionForLevelParams(params);
 
   await connect();
-  
-  await Log.info(`Verify solution ${level} ${inspect(params)}`, { ...params, function: 'verifySolutionForLevel' });
+
+  await Log.info(`Verify solution ${level} ${inspect(params)}`, {
+    ...params,
+    function: 'verifySolutionForLevel',
+  });
 
   try {
     const player = await Player.findOne({ sessionId }).orFail();
@@ -41,7 +44,7 @@ module.exports = async function handler(params) {
         { type: 'User', id: constraint.userId },
         constraint.action,
         { type: constraint.resourceType, id: constraint.resourceId },
-        player.contextFacts
+        player.contextFacts,
       );
       if (authorized !== !constraint.shouldFail) {
         pass = false;
@@ -52,11 +55,12 @@ module.exports = async function handler(params) {
     }
 
     player.levelsCompleted = player.levelsCompleted + 1;
-    player.parPerLevel[level - 1] = player.contextFacts.length - parByLevel[level - 1];
+    player.parPerLevel[level - 1] =
+      player.contextFacts.length - parByLevel[level - 1];
     player.par = player.parPerLevel.reduce((sum, v) => sum + v);
     player.gameplayTimeMS = Date.now() - player.startTime.valueOf();
     await player.save();
-    
+
     return { player };
   } catch (err) {
     await Log.error(`verifySolutionForLevel: ${err.message}`, {
@@ -64,10 +68,9 @@ module.exports = async function handler(params) {
       function: 'verifySolutionForLevel',
       message: err.message,
       stack: err.stack,
-      err: inspect(err)
+      err: inspect(err),
     });
 
     throw err;
   }
 };
-

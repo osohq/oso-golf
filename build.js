@@ -16,29 +16,35 @@ try {
 
 fs.copyFileSync(
   path.join(__dirname, 'node_modules', 'vanillatoasts', 'vanillatoasts.css'),
-  path.join(__dirname, 'public', 'vendor', 'vanillatoasts', 'vanillatoasts.css')
+  path.join(
+    __dirname,
+    'public',
+    'vendor',
+    'vanillatoasts',
+    'vanillatoasts.css',
+  ),
 );
 
 copySync(
   path.join(__dirname, 'node_modules', 'vue', 'dist'),
-  path.join(__dirname, 'public', 'vendor', 'vue')
+  path.join(__dirname, 'public', 'vendor', 'vue'),
 );
 
 copySync(
   path.join(__dirname, 'node_modules', 'vue-router', 'dist'),
-  path.join(__dirname, 'public', 'vendor', 'vue-router')
+  path.join(__dirname, 'public', 'vendor', 'vue-router'),
 );
 
 copySync(
   path.join(__dirname, 'node_modules', 'prismjs'),
-  path.join(__dirname, 'public', 'vendor', 'prismjs')
+  path.join(__dirname, 'public', 'vendor', 'prismjs'),
 );
 
 module.exports = async function build(watch) {
   if (watch) {
     const childProcess = exec('npm run tailwind:watch');
-    childProcess.stdout.on('data', data => console.log('[TAILWIND]', data));
-    childProcess.stderr.on('data', data => console.log('[TAILWIND]', data));
+    childProcess.stdout.on('data', (data) => console.log('[TAILWIND]', data));
+    childProcess.stderr.on('data', (data) => console.log('[TAILWIND]', data));
   } else {
     execSync('npm run tailwind');
   }
@@ -49,7 +55,9 @@ module.exports = async function build(watch) {
   if (watch) {
     compiler.watch({}, (err, res) => {
       if (err) {
-        process.nextTick(() => { throw new Error('Error compiling bundle: ' + err.stack); });
+        process.nextTick(() => {
+          throw new Error('Error compiling bundle: ' + err.stack);
+        });
       }
       console.log('Webpack compiled successfully');
     });
@@ -73,7 +81,7 @@ function generateComponentsDirectory() {
 
   // This file is auto-generated. Do not modify this file directly.
   `.trim();
-  fs.readdirSync(path.join(__dirname, 'src')).forEach(folder => {
+  fs.readdirSync(path.join(__dirname, 'src')).forEach((folder) => {
     if (folder.startsWith('_')) {
       return;
     }

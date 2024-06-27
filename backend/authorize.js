@@ -1,7 +1,7 @@
 'use strict';
 
 const Archetype = require('archetype');
-const Log = require('../db/log'); 
+const Log = require('../db/log');
 const Player = require('../db/player');
 const connect = require('../db/connect');
 const { inspect } = require('util');
@@ -10,24 +10,24 @@ const oso = require('../oso');
 const AuthorizeParams = new Archetype({
   sessionId: {
     $type: 'string',
-    $required: true
+    $required: true,
   },
   userId: {
     $type: 'string',
-    $required: true
+    $required: true,
   },
   action: {
     $type: 'string',
-    $required: true
+    $required: true,
   },
   resourceType: {
     $type: 'string',
-    $required: true
+    $required: true,
   },
   resourceId: {
     $type: 'string',
-    $required: true
-  }
+    $required: true,
+  },
 }).compile('AuthorizeParams');
 
 module.exports = async function authorize(params) {
@@ -38,7 +38,7 @@ module.exports = async function authorize(params) {
 
   await Log.info(`authorize ${inspect(params)}`, {
     ...params,
-    function: 'authorize'
+    function: 'authorize',
   });
 
   try {
@@ -50,7 +50,7 @@ module.exports = async function authorize(params) {
       { type: 'User', id: params.userId },
       params.action,
       { type: params.resourceType, id: params.resourceId },
-      player.contextFacts
+      player.contextFacts,
     );
     return { authorized };
   } catch (err) {
@@ -59,7 +59,7 @@ module.exports = async function authorize(params) {
       function: 'authorize',
       message: err.message,
       stack: err.stack,
-      err: inspect(err)
+      err: inspect(err),
     });
 
     throw err;

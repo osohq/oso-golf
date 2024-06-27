@@ -1,7 +1,7 @@
 'use strict';
 
 const Archetype = require('archetype');
-const Log = require('../db/log'); 
+const Log = require('../db/log');
 const Player = require('../db/player');
 const connect = require('../db/connect');
 const { inspect } = require('util');
@@ -9,8 +9,8 @@ const { inspect } = require('util');
 const ClearContextFactsParams = new Archetype({
   sessionId: {
     $type: 'string',
-    $required: true
-  }
+    $required: true,
+  },
 }).compile('ClearContextFactsParams');
 
 module.exports = async function clearContextFacts(params) {
@@ -20,7 +20,7 @@ module.exports = async function clearContextFacts(params) {
 
   await Log.info(`clearContextFacts ${inspect(params)}`, {
     ...params,
-    function: 'clearContextFacts'
+    function: 'clearContextFacts',
   });
 
   try {
@@ -37,7 +37,7 @@ module.exports = async function clearContextFacts(params) {
       function: 'clearContextFacts',
       message: err.message,
       stack: err.stack,
-      err: inspect(err)
+      err: inspect(err),
     });
 
     throw err;
