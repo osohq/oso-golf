@@ -19,18 +19,10 @@ const Player =
         type: String,
         required: true,
       },
-      startTime: {
-        type: Date,
-        required: true,
-        default: () => new Date(),
-      },
       parPerLevel: {
         type: [Number],
       },
       par: {
-        type: Number,
-      },
-      gameplayTimeMS: {
         type: Number,
       },
       levelsCompleted: {

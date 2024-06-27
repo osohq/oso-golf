@@ -37,7 +37,6 @@ const app = Vue.createApp({
       level: 0,
       currentLevel: null,
       par: 0,
-      startTime: null,
       errors: {},
       showNextLevelButton: false,
       name: '',
@@ -73,11 +72,6 @@ const router = VueRouter.createRouter({
       path: '/',
       name: 'home',
       component: app.component('app-component'),
-    },
-    {
-      path: '/leaderboard',
-      name: 'leaderboard',
-      component: app.component('leaderboard'),
     },
   ],
 });

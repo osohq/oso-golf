@@ -5,7 +5,6 @@ exports['add-role-fact'] = require('./add-role-fact/add-role-fact.js');
 exports['app-component'] = require('./app-component/app-component.js');
 exports['async-button'] = require('./async-button/async-button.js');
 exports['constraints'] = require('./constraints/constraints.js');
-exports['leaderboard'] = require('./leaderboard/leaderboard.js');
 exports['level'] = require('./level/level.js');
 exports['modal'] = require('./modal/modal.js');
 exports['oso-footer'] = require('./oso-footer/oso-footer.js');

@@ -11,27 +11,11 @@ module.exports = (app) =>
   app.component('app-component', {
     inject: ['state'],
     data: () => ({
-      currentTime: new Date(),
       status: 'loading',
       showRestartConfirmModal: false,
     }),
     template,
     computed: {
-      elapsedTime() {
-        if (!this.state.startTime) {
-          return '0:00';
-        }
-        const ms = this.currentTime.valueOf() - this.state.startTime.valueOf();
-        const seconds = Math.floor((ms / 1000) % 60);
-        const minutes = Math.floor((ms / 1000 / 60) % 60);
-        const hours = Math.floor(ms / 1000 / 60 / 60);
-
-        if (hours) {
-          return `${hours}:${(minutes + '').padStart(2, '0')}:${(seconds + '').padStart(2, '0')}`;
-        }
-
-        return `${minutes}:${(seconds + '').padStart(2, '0')}`;
-      },
       par() {
         if (this.state.par < 0) {
           return this.state.par;
@@ -92,10 +76,6 @@ module.exports = (app) =>
       },
     },
     async mounted() {
-      setInterval(() => {
-        this.currentTime = new Date();
-      }, 500);
-
       const { player } = await axios
         .get('/api/resume-game', {
           params: {
@@ -108,7 +88,6 @@ module.exports = (app) =>
       }
       await setLevel(player.levelsCompleted + 1, true, this.state);
       this.state.par = player.par;
-      this.state.startTime = new Date(player.startTime);
       this.state.name = player.name;
       this.state.player = player;
       this.loadFacts(player);

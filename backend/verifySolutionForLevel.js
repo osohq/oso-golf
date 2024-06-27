@@ -58,7 +58,6 @@ module.exports = async function handler(params) {
     player.parPerLevel[level - 1] =
       player.contextFacts.length - parByLevel[level - 1];
     player.par = player.parPerLevel.reduce((sum, v) => sum + v);
-    player.gameplayTimeMS = Date.now() - player.startTime.valueOf();
     await player.save();
 
     return { player };

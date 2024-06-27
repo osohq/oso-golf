@@ -45,8 +45,6 @@ module.exports = (app) =>
 
         this.state.level = 1;
         this.state.currentLevel = levels[0];
-        this.state.currentTime = new Date();
-        this.state.startTime = new Date(player.startTime);
         await this.onStartGame();
       },
     },
