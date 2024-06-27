@@ -13,22 +13,26 @@ async function runTests(state) {
   state.showNextLevelButton = null;
   let passed = true;
   const results = [];
-  await Promise.all(state.constraints.map(async(constraint, index) => {
-    const authorized = await axios.get('/api/authorize', {
-      params: {
-        sessionId: state.sessionId,
-        userId: constraint.userId,
-        action: constraint.action,
-        resourceType: constraint.resourceType,
-        resourceId: constraint.resourceId
+  await Promise.all(
+    state.constraints.map(async (constraint, index) => {
+      const authorized = await axios
+        .get('/api/authorize', {
+          params: {
+            sessionId: state.sessionId,
+            userId: constraint.userId,
+            action: constraint.action,
+            resourceType: constraint.resourceType,
+            resourceId: constraint.resourceId,
+          },
+        })
+        .then((res) => res.data.authorized);
+      const pass = authorized === !constraint.shouldFail;
+      results[index] = { ...constraint, pass };
+      if (!pass) {
+        passed = false;
       }
-    }).then(res => res.data.authorized);
-    const pass = authorized === !constraint.shouldFail;
-    results[index] = { ...constraint, pass };
-    if (!pass) {
-      passed = false;
-    }
-  }));
+    }),
+  );
   state.results = results;
   state.showNextLevelButton = passed;
 }

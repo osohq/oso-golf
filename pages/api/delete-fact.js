@@ -10,4 +10,4 @@ export default async function handler(req, res) {
     console.error(error.stack);
     return res.status(500).json({ message: error.message });
   }
-};
+}

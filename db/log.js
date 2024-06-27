@@ -8,28 +8,31 @@ const isTest = process.env.NODE_ENV === 'test';
 const options = { timestamps: true };
 options.capped = 256e7; /* 256 MB */
 
-const logSchema = new mongoose.Schema({
-  level: {
-    type: String,
-    default: 'info',
-    required: true,
-    enum: ['debug', 'info', 'warning', 'error']
+const logSchema = new mongoose.Schema(
+  {
+    level: {
+      type: String,
+      default: 'info',
+      required: true,
+      enum: ['debug', 'info', 'warning', 'error'],
+    },
+    appName: {
+      type: String,
+      required: true,
+      enum: ['core-api', 'ios', 'web', 'host-dashboard'],
+      default: 'core-api',
+    },
+    appVersion: {
+      type: String,
+    },
+    message: {
+      type: String,
+      required: true,
+    },
+    data: 'Mixed',
   },
-  appName: {
-    type: String,
-    required: true,
-    enum: ['core-api', 'ios', 'web', 'host-dashboard'],
-    default: 'core-api'
-  },
-  appVersion: {
-    type: String
-  },
-  message: {
-    type: String,
-    required: true
-  },
-  data: 'Mixed'
-}, options);
+  options,
+);
 
 logSchema.statics.debug = function debug(message, data) {
   if (!isTest) {

@@ -1,7 +1,7 @@
 'use strict';
 
 const Archetype = require('archetype');
-const Log = require('../db/log'); 
+const Log = require('../db/log');
 const Player = require('../db/player');
 const connect = require('../db/connect');
 const { inspect } = require('util');
@@ -9,8 +9,8 @@ const { inspect } = require('util');
 const ResumeGameParams = new Archetype({
   sessionId: {
     $type: 'string',
-    $required: true
-  }
+    $required: true,
+  },
 }).compile('ResumeGameParams');
 
 module.exports = async function resumeGame(params) {
@@ -20,12 +20,12 @@ module.exports = async function resumeGame(params) {
 
   await Log.info(`resumeGame ${inspect(params)}`, {
     ...params,
-    function: 'resumeGame'
+    function: 'resumeGame',
   });
-  
+
   try {
     const player = await Player.findOne({
-      sessionId
+      sessionId,
     });
 
     return { player };
@@ -35,7 +35,7 @@ module.exports = async function resumeGame(params) {
       function: 'resumeGame',
       message: err.message,
       stack: err.stack,
-      err: inspect(err)
+      err: inspect(err),
     });
 
     throw err;
