@@ -2,7 +2,11 @@
 
 const levels = require('../../levels');
 
-module.exports = async function setLevel(level, retainContextFacts, state = window.state) {
+module.exports = async function setLevel(
+  level,
+  retainContextFacts,
+  state = window.state,
+) {
   if (level < 1) {
     throw new Error(`Invalid level ${level}`);
   }

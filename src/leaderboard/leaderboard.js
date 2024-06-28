@@ -4,38 +4,40 @@ const BaseComponent = require('../base-component');
 const axios = require('axios');
 const template = require('./leaderboard.html');
 
-module.exports = app => app.component('leaderboard', {
-  inject: ['state'],
-  extends: BaseComponent,
-  name: 'leaderboard',
-  data: () => ({ status: 'loading', players: [] }),
-  template,
-  methods: {
-    readableMS(player) {
-      if (!player || player.gameplayTimeMS == null) {
-        return '';
-      }
-      const seconds = Math.floor((player.gameplayTimeMS / 1000) % 60);
-      const minutes = Math.floor((player.gameplayTimeMS / 1000 / 60) % 60);
+module.exports = (app) =>
+  app.component('leaderboard', {
+    inject: ['state'],
+    extends: BaseComponent,
+    name: 'leaderboard',
+    data: () => ({ status: 'loading', players: [] }),
+    template,
+    methods: {
+      readableMS(player) {
+        if (!player || player.gameplayTimeMS == null) {
+          return '';
+        }
+        const seconds = Math.floor((player.gameplayTimeMS / 1000) % 60);
+        const minutes = Math.floor((player.gameplayTimeMS / 1000 / 60) % 60);
+        const hours = Math.floor(player.gameplayTimeMS / 1000 / 60 / 60);
 
-      const hours = Math.floor(player.gameplayTimeMS / 1000 / 60 / 60);
+        if (hours) {
+          return `${hours}:${(minutes + '').padStart(2, '0')}:${(seconds + '').padStart(2, '0')}`;
+        }
 
-      if (hours) {
-        return `${hours}:${(minutes + '').padStart(2, '0')}:${(seconds + '').padStart(2, '0')}`;
-      }
-
-      return `${minutes}:${(seconds + '').padStart(2, '0')}`;
+        return `${minutes}:${(seconds + '').padStart(2, '0')}`;
+      },
+      par(player) {
+        if (player.par < 0) {
+          return player.par;
+        }
+        return `+${player.par}`;
+      },
     },
-    par(player) {
-      if (player.par < 0) {
-        return player.par;
-      }
-      return `+${player.par}`;
-    }
-  },
-  async mounted() {
-    const { players } = await axios.get('/api/leaderboard').then(res => res.data);
-    this.players = players;
-    this.status = 'loaded';
-  }
-});
+    async mounted() {
+      const { players } = await axios
+        .get('/api/leaderboard')
+        .then((res) => res.data);
+      this.players = players;
+      this.status = 'loaded';
+    },
+  });

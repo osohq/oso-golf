@@ -4,7 +4,8 @@ const components = require('./components');
 const levels = require('../levels');
 const vanillatoasts = require('vanillatoasts');
 
-const sessionId = window.localStorage.getItem('_gitclubGameSession') || [...Array(30)].map(() => Math.random().toString(36)[2]).join('');
+const sessionId = window.localStorage.getItem('_gitclubGameSession')
+  || [...Array(30)].map(() => Math.random().toString(36)[2]).join('');
 console.log(sessionId);
 window.localStorage.setItem('_gitclubGameSession', sessionId);
 
@@ -22,7 +23,12 @@ const app = Vue.createApp({
   setup() {
     const state = Vue.reactive({
       organizations: ['osohq', 'acme'],
-      repositories: ['osohq/sample-apps', 'osohq/configs', 'osohq/nodejs-client', 'acme/website'],
+      repositories: [
+        'osohq/sample-apps',
+        'osohq/configs',
+        'osohq/nodejs-client',
+        'acme/website',
+      ],
       constraints: levels[0].constraints,
       results: [],
       facts: [],
@@ -30,12 +36,11 @@ const app = Vue.createApp({
       level: 0,
       currentLevel: null,
       par: 0,
-      startTime: null,
       errors: {},
       showNextLevelButton: false,
       name: '',
       email: '',
-      player: null
+      player: null,
     });
 
     Vue.provide('state', state);
@@ -50,9 +55,9 @@ const app = Vue.createApp({
       title,
       icon: '/images/failure.jpg',
       timeout: 5000,
-      positionClass: 'bottomRight'
+      positionClass: 'bottomRight',
     });
-  }
+  },
 });
 
 for (const component of Object.values(components)) {
@@ -65,14 +70,9 @@ const router = VueRouter.createRouter({
     {
       path: '/',
       name: 'home',
-      component: app.component('app-component')
+      component: app.component('app-component'),
     },
-    {
-      path: '/leaderboard',
-      name: 'leaderboard',
-      component: app.component('leaderboard')
-    }
-  ]
+  ],
 });
 
 // Set the correct initial route: https://github.com/vuejs/vue-router/issues/866

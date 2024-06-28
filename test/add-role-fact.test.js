@@ -10,10 +10,10 @@ const levels = require('../levels');
 const { renderToString } = require('vue/server-renderer');
 const sinon = require('sinon');
 
-describe('AddRoleFact', function() {
+describe('AddRoleFact', function () {
   let appInstance = null;
   let state = null;
-  beforeEach(async function() {
+  beforeEach(async function () {
     state = reactive({
       sessionId: 'roleFactTest',
       level: 0,
@@ -21,7 +21,7 @@ describe('AddRoleFact', function() {
       facts: [],
       constraints: levels[0].constraints,
       results: null,
-      showNextLevelButton: true
+      showNextLevelButton: true,
     });
     const app = createSSRApp({
       data: () => ({ actorType: 'User' }),
@@ -31,7 +31,7 @@ describe('AddRoleFact', function() {
       },
       setup() {
         provide('state', state);
-      }
+      },
     });
     AddRoleFact(app);
 
@@ -40,19 +40,19 @@ describe('AddRoleFact', function() {
 
   afterEach(() => sinon.restore());
 
-  it('sends facts and reruns tests', async function() {
+  it('sends facts and reruns tests', async function () {
     const component = appInstance.$options.$children[0];
 
     component.userId = 'Alice';
     component.role = 'admin';
     component.resourceType = 'Organization';
     component.resourceId = 'osohq';
-    
-    sinon.stub(api, 'put').callsFake(async() => {});
-    sinon.stub(api, 'get').callsFake(async() => ({
+
+    sinon.stub(api, 'put').callsFake(async () => {});
+    sinon.stub(api, 'get').callsFake(async () => ({
       data: {
-        authorized: true
-      }
+        authorized: true,
+      },
     }));
     await component.sendRoleFact();
 
@@ -65,7 +65,7 @@ describe('AddRoleFact', function() {
       userId: 'Alice',
       role: 'admin',
       resourceType: 'Organization',
-      resourceId: 'osohq'
+      resourceId: 'osohq',
     });
 
     assert.deepStrictEqual(state.results, [
@@ -74,33 +74,33 @@ describe('AddRoleFact', function() {
         action: 'read',
         resourceType: 'Organization',
         resourceId: 'osohq',
-        pass: true
+        pass: true,
       },
       {
         userId: 'Anthony',
         action: 'add_member',
         resourceType: 'Organization',
         resourceId: 'osohq',
-        pass: true
-      }
+        pass: true,
+      },
     ]);
     assert.equal(state.showNextLevelButton, true);
   });
 
-  it('handles test failures', async function() {
+  it('handles test failures', async function () {
     const component = appInstance.$options.$children[0];
 
     component.userId = 'Alice';
     component.role = 'admin';
     component.resourceType = 'Organization';
     component.resourceId = 'osohq';
-    
-    sinon.stub(api, 'put').callsFake(async() => {});
-    sinon.stub(api, 'get').callsFake(async(url, { params }) => {
+
+    sinon.stub(api, 'put').callsFake(async () => {});
+    sinon.stub(api, 'get').callsFake(async (url, { params }) => {
       return {
         data: {
-          authorized: params.userId === 'Alice'
-        }
+          authorized: params.userId === 'Alice',
+        },
       };
     });
     await component.sendRoleFact();
@@ -111,15 +111,15 @@ describe('AddRoleFact', function() {
         action: 'read',
         resourceType: 'Organization',
         resourceId: 'osohq',
-        pass: true
+        pass: true,
       },
       {
         userId: 'Anthony',
         action: 'add_member',
         resourceType: 'Organization',
         resourceId: 'osohq',
-        pass: false
-      }
+        pass: false,
+      },
     ]);
     assert.equal(state.showNextLevelButton, false);
   });

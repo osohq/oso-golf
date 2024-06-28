@@ -7,8 +7,8 @@ module.exports = {
     return [
       {
         source: '/',
-        destination: '/index.html'
-      }
+        destination: '/index.html',
+      },
     ];
-  }
+  },
 };

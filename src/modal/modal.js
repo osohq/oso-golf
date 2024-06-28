@@ -2,6 +2,7 @@
 
 const template = require('./modal.html');
 
-module.exports = app => app.component('modal', {
-  template
-});
+module.exports = (app) =>
+  app.component('modal', {
+    template,
+  });
