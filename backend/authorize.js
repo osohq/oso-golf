@@ -44,8 +44,6 @@ module.exports = async function authorize(params) {
   try {
     const player = await Player.findOne({ sessionId }).orFail();
 
-    console.log('Authorize', params, player.contextFacts);
-
     const authorized = await oso.authorize(
       { type: 'User', id: params.userId },
       params.action,

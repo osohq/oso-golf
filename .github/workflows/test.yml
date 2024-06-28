@@ -23,6 +23,13 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
+      - name: Setup Oso binary
+        run: |
+          wget https://oso-local-development-binary.s3.amazonaws.com/oso-local-development-binary-linux-x86_64.tar.gz
+          tar xf oso-local-development-binary-linux-x86_64.tar.gz
+          chmod +x ./standalone
+          ./standalone &
+
       - run: npm install
 
       - name: Setup

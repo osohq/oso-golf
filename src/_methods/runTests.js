@@ -1,6 +1,6 @@
 'use strict';
 
-const axios = require('axios');
+const api = require('../api');
 
 module.exports = asyncQueue(runTests);
 
@@ -15,7 +15,7 @@ async function runTests(state) {
   const results = [];
   await Promise.all(
     state.constraints.map(async (constraint, index) => {
-      const authorized = await axios
+      const authorized = await api
         .get('/api/authorize', {
           params: {
             sessionId: state.sessionId,
