@@ -1,10 +1,13 @@
 'use strict';
 
+const BaseComponent = require('../base-component');
 const template = require('./share.html');
 
 module.exports = app => app.component('share', {
+  extends: BaseComponent,
   template,
   inject: ['state'],
+  name: 'share',
   computed: {
     twitterLink() {
       if (!this.state.player) {

@@ -1,6 +1,7 @@
 'use strict';
 
-const axios = require('axios');
+const BaseComponent = require('../base-component');
+const api = require('../api');
 const bson = require('bson');
 const runTests = require('../_methods/runTests');
 const setLevel = require('../_methods/setLevel');
@@ -54,6 +55,8 @@ has_permission(actor: Actor, "delete", repo: Repository) if
 
 module.exports = app => app.component('level', {
   inject: ['state'],
+  extends: BaseComponent,
+  name: 'level',
   props: ['status'],
   data: () => ({
     userId: null,
@@ -78,7 +81,11 @@ module.exports = app => app.component('level', {
         ? this.state.currentLevel.polarCode
         : defaultPolarCode;
 
-      return Prism.highlight(code, Prism.languages.ruby);
+      if (typeof Prism !== 'undefined') {
+        return Prism.highlight(code, Prism.languages.ruby);
+      } else {
+        return code;
+      }
     },
     allResources() {
       let ret = ['Organization', 'Repository', 'User'];
@@ -181,7 +188,7 @@ module.exports = app => app.component('level', {
 
       const resourceType = attributeFact.resourceType;
       const factType = 'attribute';
-      await axios.put('/api/tell', {
+      await api.put('/api/tell', {
         sessionId: this.state.sessionId,
         factType,
         userId: this.userId,
@@ -223,7 +230,7 @@ module.exports = app => app.component('level', {
       try {
         const params = { ...fact };
         delete params._id;
-        await axios.put('/api/delete-fact', {
+        await api.put('/api/delete-fact', {
           sessionId: this.state.sessionId,
           ...params
         }).then(res => res.data);
@@ -237,7 +244,7 @@ module.exports = app => app.component('level', {
     async deleteAllFacts() {
       this.deleteInProgress = true;
       try {
-        await axios.put('/api/clear-context-facts', {
+        await api.put('/api/clear-context-facts', {
           sessionId: this.state.sessionId
         }).then(res => res.data);
         this.state.facts = [];
@@ -254,7 +261,7 @@ module.exports = app => app.component('level', {
       return this.state.results[index].pass ? '/images/check-green.svg' : '/images/error-red.svg';
     },
     async verifySolutionForLevel() {
-      const { player } = await axios.post('/api/verify-solution-for-level', {
+      const { player } = await api.post('/api/verify-solution-for-level', {
         sessionId: this.state.sessionId,
         level: this.state.level
       }).then(res => res.data);

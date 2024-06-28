@@ -1,12 +1,12 @@
 'use strict';
 
-const sessionId = window.localStorage.getItem('_gitclubGameSession') || [...Array(30)].map(() => Math.random().toString(36)[2]).join('');
-console.log(sessionId);
-window.localStorage.setItem('_gitclubGameSession', sessionId);
-
 const components = require('./components');
 const levels = require('../levels');
 const vanillatoasts = require('vanillatoasts');
+
+const sessionId = window.localStorage.getItem('_gitclubGameSession') || [...Array(30)].map(() => Math.random().toString(36)[2]).join('');
+console.log(sessionId);
+window.localStorage.setItem('_gitclubGameSession', sessionId);
 
 window.setLevel = require('./_methods/setLevel');
 window.runTests = require('./_methods/runTests');

@@ -1,5 +1,6 @@
 'use strict';
 
+const BaseComponent = require('../base-component');
 const axios = require('axios');
 const bson = require('bson');
 const levels = require('../../levels');
@@ -9,6 +10,8 @@ const template = require('./app-component.html');
 
 module.exports = app => app.component('app-component', {
   inject: ['state'],
+  extends: BaseComponent,
+  name: 'app-component',
   data: () => ({
     currentTime: new Date(),
     status: 'loading',

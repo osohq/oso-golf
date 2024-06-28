@@ -1,10 +1,13 @@
 'use strict';
 
+const BaseComponent = require('../base-component');
 const axios = require('axios');
 const template = require('./leaderboard.html');
 
 module.exports = app => app.component('leaderboard', {
   inject: ['state'],
+  extends: BaseComponent,
+  name: 'leaderboard',
   data: () => ({ status: 'loading', players: [] }),
   template,
   methods: {

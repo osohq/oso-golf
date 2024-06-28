@@ -1,11 +1,14 @@
 'use strict';
 
+const BaseComponent = require('../base-component');
 const levels = require('../../levels');
 const template = require('./scorecard.html');
 
 module.exports = app => app.component('scorecard', {
   template,
   inject: ['state'],
+  extends: BaseComponent,
+  name: 'scorecard',
   computed: {
     holes() {
       return [1, 2, 3, 4, 5, 6, 7, 8, 9];

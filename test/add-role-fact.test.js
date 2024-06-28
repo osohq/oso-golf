@@ -3,7 +3,7 @@
 require('./setup');
 
 const AddRoleFact = require('../src/add-role-fact/add-role-fact');
-const axios = require('axios');
+const api = require('../src/api');
 const assert = require('assert');
 const { createSSRApp, provide, reactive } = require('vue');
 const levels = require('../levels');
@@ -48,17 +48,17 @@ describe('AddRoleFact', function() {
     component.resourceType = 'Organization';
     component.resourceId = 'osohq';
     
-    sinon.stub(axios, 'put').callsFake(async() => {});
-    sinon.stub(axios, 'get').callsFake(async() => ({
+    sinon.stub(api, 'put').callsFake(async() => {});
+    sinon.stub(api, 'get').callsFake(async() => ({
       data: {
         authorized: true
       }
     }));
     await component.sendRoleFact();
 
-    assert.equal(axios.put.getCalls().length, 1);
-    assert.equal(axios.put.getCalls()[0].args[0], '/api/tell');
-    assert.deepStrictEqual(axios.put.getCalls()[0].args[1], {
+    assert.equal(api.put.getCalls().length, 1);
+    assert.equal(api.put.getCalls()[0].args[0], '/api/tell');
+    assert.deepStrictEqual(api.put.getCalls()[0].args[1], {
       sessionId: 'roleFactTest',
       factType: 'role',
       actorType: 'User',
@@ -95,8 +95,8 @@ describe('AddRoleFact', function() {
     component.resourceType = 'Organization';
     component.resourceId = 'osohq';
     
-    sinon.stub(axios, 'put').callsFake(async() => {});
-    sinon.stub(axios, 'get').callsFake(async(url, { params }) => {
+    sinon.stub(api, 'put').callsFake(async() => {});
+    sinon.stub(api, 'get').callsFake(async(url, { params }) => {
       return {
         data: {
           authorized: params.userId === 'Alice'

@@ -1,11 +1,14 @@
 'use strict';
 
-const axios = require('axios');
+const BaseComponent = require('../base-component');
+const api = require('../api');
 const levels = require('../../levels');
 const template = require('./splash-screen.html');
 
 module.exports = app => app.component('splash-screen', {
+  extends: BaseComponent,
   inject: ['state'],
+  name: 'splash-screen',
   data: () => ({ email: '', name: '', password: '', errors: {} }),
   props: ['onStartGame'],
   template,
@@ -33,7 +36,7 @@ module.exports = app => app.component('splash-screen', {
         return;
       }
 
-      const { player } = await axios.post('/api/start-game', {
+      const { player } = await api.post('/api/start-game', {
         sessionId: this.state.sessionId,
         name: this.name,
         email: this.email,

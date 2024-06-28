@@ -12,6 +12,7 @@ module.exports = {
     es6: true
   },
   globals: {
+    API_URL: true,
     HAS_PASSWORD: true
   },
   ignorePatterns: ['pages/*', 'pages/api/*']

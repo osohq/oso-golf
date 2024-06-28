@@ -1,9 +1,12 @@
 'use strict';
 
+const BaseComponent = require('../base-component');
 const template = require('./constraints.html');
 
 module.exports = app => app.component('constraints', {
   inject: ['state'],
+  extends: BaseComponent,
+  name: 'constraints',
   template: template,
   methods: {
     displayImageForTestResult(index) {
