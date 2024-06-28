@@ -82,7 +82,9 @@ module.exports = (app) =>
           ? this.state.currentLevel.polarCode
           : defaultPolarCode;
 
-        return Prism.highlight(code, Prism.languages.ruby);
+        return typeof Prism === 'undefined'
+          ? code
+          : Prism.highlight(code, Prism.languages.ruby);
       },
       allResources() {
         let ret = ['Organization', 'Repository', 'User'];
@@ -243,7 +245,7 @@ module.exports = (app) =>
         try {
           const params = { ...fact };
           delete params._id;
-          await axios
+          await api
             .put('/api/delete-fact', {
               sessionId: this.state.sessionId,
               ...params,
@@ -259,7 +261,7 @@ module.exports = (app) =>
       async deleteAllFacts() {
         this.deleteInProgress = true;
         try {
-          await axios
+          await api
             .put('/api/clear-context-facts', {
               sessionId: this.state.sessionId,
             })

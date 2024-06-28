@@ -3,7 +3,6 @@
 require('./setup');
 
 const Player = require('../db/player');
-const axios = require('axios');
 const assert = require('assert');
 const backend = require('../backend');
 const components = require('../src/components');

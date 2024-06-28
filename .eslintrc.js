@@ -14,4 +14,8 @@ module.exports = {
     HAS_PASSWORD: true,
   },
   ignorePatterns: ['pages/*', 'pages/api/*'],
+  rules: {
+    'comma-dangle': 'off',
+    'space-before-function-paren': 'off',
+  },
 };

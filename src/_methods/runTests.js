@@ -15,8 +15,8 @@ async function runTests(state) {
   const results = [];
   await Promise.all(
     state.constraints.map(async (constraint, index) => {
-      const authorized = await axios
-        .api('/api/authorize', {
+      const authorized = await api
+        .get('/api/authorize', {
           params: {
             sessionId: state.sessionId,
             userId: constraint.userId,

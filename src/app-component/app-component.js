@@ -17,6 +17,7 @@ module.exports = (app) =>
     }),
     template,
     name: 'app-component',
+    extends: BaseComponent,
     computed: {
       par() {
         if (this.state.par < 0) {
