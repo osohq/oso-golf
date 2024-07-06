@@ -6,7 +6,6 @@ const vanillatoasts = require('vanillatoasts');
 
 const sessionId = window.localStorage.getItem('_gitclubGameSession')
   || [...Array(30)].map(() => Math.random().toString(36)[2]).join('');
-console.log(sessionId);
 window.localStorage.setItem('_gitclubGameSession', sessionId);
 
 window.setLevel = require('./_methods/setLevel');

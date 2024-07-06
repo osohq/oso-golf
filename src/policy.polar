@@ -45,7 +45,6 @@ resource Repository {
 has_permission(_: Actor, "read", repo: Repository) if
     is_public(repo, true);
 
-
 has_permission(actor: Actor, "delete", repo: Repository) if
     has_role(actor, "admin", repo) and
     is_protected(repo, false);
