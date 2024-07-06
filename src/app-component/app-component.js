@@ -1,5 +1,6 @@
 'use strict';
 
+const BaseComponent = require('../base-component');
 const axios = require('axios');
 const bson = require('bson');
 const levels = require('../../levels');
@@ -15,6 +16,8 @@ module.exports = (app) =>
       showRestartConfirmModal: false,
     }),
     template,
+    name: 'app-component',
+    extends: BaseComponent,
     computed: {
       par() {
         if (this.state.par < 0) {

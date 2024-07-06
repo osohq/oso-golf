@@ -1,7 +1,7 @@
 'use strict';
 
 const BaseComponent = require('../base-component');
-const axios = require('axios');
+const api = require('../api');
 const bson = require('bson');
 const runTests = require('../_methods/runTests');
 const template = require('./add-role-fact.html');
@@ -21,6 +21,7 @@ module.exports = (app) =>
     inject: ['state'],
     props: ['actorType'],
     extends: BaseComponent,
+    name: 'add-role-fact',
     data: () => ({
       userId: '',
       role: '',
@@ -100,7 +101,7 @@ module.exports = (app) =>
         }
 
         const factType = 'role';
-        await axios.put('/api/tell', {
+        await api.put('/api/tell', {
           sessionId: this.state.sessionId,
           factType,
           actorType: this.actorType,
