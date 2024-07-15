@@ -35,11 +35,6 @@ copySync(
   path.join(__dirname, 'public', 'vendor', 'vue-router'),
 );
 
-copySync(
-  path.join(__dirname, 'node_modules', 'prismjs'),
-  path.join(__dirname, 'public', 'vendor', 'prismjs'),
-);
-
 module.exports = async function build(watch) {
   if (watch) {
     const childProcess = exec('npm run tailwind:watch');
