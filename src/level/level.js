@@ -3,6 +3,7 @@
 const BaseComponent = require('../base-component');
 const api = require('../api');
 const bson = require('bson');
+const lighter = require('@code-hike/lighter');
 const runTests = require('../_methods/runTests');
 const setLevel = require('../_methods/setLevel');
 const template = require('./level.html');
@@ -74,17 +75,14 @@ module.exports = (app) =>
       },
       deleteInProgress: false,
       showDeleteAllModal: false,
+      highlightedCode: []
     }),
     template,
     computed: {
       polarCode() {
-        const code = this.state.currentLevel?.polarCode
-          ? this.state.currentLevel.polarCode
-          : defaultPolarCode;
-
-        return typeof Prism === 'undefined'
-          ? code
-          : Prism.highlight(code, Prism.languages.ruby);
+        return this.highlightedCode.map(line => {
+          return line.map(chunk => `<span style="${stringifyStyle(chunk.style)}">${chunk.content}</span>`).join('');
+        }).join('\n');
       },
       allResources() {
         let ret = ['Organization', 'Repository', 'User'];
@@ -178,6 +176,11 @@ module.exports = (app) =>
         if (!this.allRoles.includes(this.roleFact.role)) {
           this.roleFact.role = null;
         }
+      },
+      'state.currentLevel': async function(currentLevel) {
+        this.highlightedCode = [];
+        const result = await lighter.highlight(currentLevel.polarCode, 'polar', 'github-light');
+        this.highlightedCode = result.lines;
       },
     },
     methods: {
@@ -296,3 +299,12 @@ module.exports = (app) =>
       },
     },
   });
+
+function stringifyStyle(obj) {
+  if (obj == null) {
+    return '';
+  }
+  return Object.entries(obj).map(([key, value]) => {
+    return `${key}:${value}`;
+  }).join(';');
+}
