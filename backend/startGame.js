@@ -15,25 +15,11 @@ const StartGameParams = new Archetype({
   name: {
     $type: 'string',
     $required: true,
-  },
-  email: {
-    $type: 'string',
-    $required: true,
-  },
-  password: {
-    $type: 'string',
-  },
+  }
 }).compile('StartGameParams');
 
 module.exports = async function startGame(params) {
   const { sessionId, name, email, password } = new StartGameParams(params);
-
-  if (
-    process.env.OSO_GOLF_PASSWORD &&
-    process.env.OSO_GOLF_PASSWORD !== password
-  ) {
-    throw new Error('Incorrect password');
-  }
 
   await connect();
 
@@ -46,7 +32,6 @@ module.exports = async function startGame(params) {
     const player = await Player.create({
       sessionId,
       name,
-      email,
     });
 
     await oso.tell(

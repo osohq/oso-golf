@@ -17,7 +17,6 @@ const Player =
       },
       email: {
         type: String,
-        required: true,
       },
       parPerLevel: {
         type: [Number],

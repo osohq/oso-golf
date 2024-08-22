@@ -38,7 +38,6 @@ const app = Vue.createApp({
       errors: {},
       showNextLevelButton: false,
       name: '',
-      email: '',
       player: null,
     });
 

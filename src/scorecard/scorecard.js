@@ -22,8 +22,7 @@ module.exports = (app) =>
           return 0;
         }
         return (
-          this.state.player.parPerLevel.reduce((sum, v) => sum + v, 0) +
-          this.parTotal
+          this.state.player.parPerLevel.reduce((sum, v) => sum + v, 0)
         );
       },
       parTotal() {

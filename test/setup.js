@@ -1,6 +1,5 @@
 'use strict';
 
-global.HAS_PASSWORD = false;
 global.API_URL = 'http://localhost:3000';
 
 const connect = require('../db/connect');

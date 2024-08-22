@@ -81,9 +81,9 @@ describe('e2e test', function() {
     // Complete splash screen
     const splashScreenComponent = appComponent.$options.$children.find(el => el.$options.name === 'splash-screen');
     splashScreenComponent.name = 'John Smith';
-    splashScreenComponent.email = 'john@gmail.com';
     await splashScreenComponent.startGame();
     assert.strictEqual(state.level, 1);
+    assert.strictEqual(state.name, 'John Smith');
     assert.deepStrictEqual(state.results, [
       {
         userId: 'Alice',
