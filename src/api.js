@@ -2,8 +2,13 @@
 
 const axios = require('axios');
 
-const client = typeof API_URL === 'undefined' ? axios.create() : axios.create({
-  baseURL: API_URL
-});
+let client = null;
+if (typeof API_URL === 'undefined') {
+  client = axios.create();
+} else {
+  client = axios.create({
+    baseURL: API_URL,
+  });
+}
 
 module.exports = client;
