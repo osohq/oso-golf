@@ -75,14 +75,21 @@ module.exports = (app) =>
       },
       deleteInProgress: false,
       showDeleteAllModal: false,
-      highlightedCode: []
+      highlightedCode: [],
     }),
     template,
     computed: {
       polarCode() {
-        return this.highlightedCode.map(line => {
-          return line.map(chunk => `<span style="${stringifyStyle(chunk.style)}">${chunk.content}</span>`).join('');
-        }).join('\n');
+        return this.highlightedCode
+          .map((line) => {
+            return line
+              .map(
+                (chunk) =>
+                  `<span style="${stringifyStyle(chunk.style)}">${chunk.content}</span>`,
+              )
+              .join('');
+          })
+          .join('\n');
       },
       allResources() {
         let ret = ['Organization', 'Repository', 'User'];
@@ -177,9 +184,13 @@ module.exports = (app) =>
           this.roleFact.role = null;
         }
       },
-      'state.currentLevel': async function(currentLevel) {
+      'state.currentLevel': async function (currentLevel) {
         this.highlightedCode = [];
-        const result = await lighter.highlight(currentLevel.polarCode, 'polar', 'github-light');
+        const result = await lighter.highlight(
+          currentLevel.polarCode,
+          'polar',
+          'github-light',
+        );
         this.highlightedCode = result.lines;
       },
     },
@@ -219,7 +230,7 @@ module.exports = (app) =>
           resourceType,
           ...this.attributeFact,
         });
-        
+
         this.attributeFact = {
           resourceId: null,
           attribute: null,
@@ -304,7 +315,9 @@ function stringifyStyle(obj) {
   if (obj == null) {
     return '';
   }
-  return Object.entries(obj).map(([key, value]) => {
-    return `${key}:${value}`;
-  }).join(';');
+  return Object.entries(obj)
+    .map(([key, value]) => {
+      return `${key}:${value}`;
+    })
+    .join(';');
 }
