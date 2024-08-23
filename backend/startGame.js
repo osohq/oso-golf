@@ -15,7 +15,7 @@ const StartGameParams = new Archetype({
   name: {
     $type: 'string',
     $required: true,
-  }
+  },
 }).compile('StartGameParams');
 
 module.exports = async function startGame(params) {
