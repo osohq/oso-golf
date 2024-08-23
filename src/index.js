@@ -4,8 +4,9 @@ const components = require('./components');
 const levels = require('../levels');
 const vanillatoasts = require('vanillatoasts');
 
-const sessionId = window.localStorage.getItem('_gitclubGameSession')
-  || [...Array(30)].map(() => Math.random().toString(36)[2]).join('');
+const sessionId =
+  window.localStorage.getItem('_gitclubGameSession') ||
+  [...Array(30)].map(() => Math.random().toString(36)[2]).join('');
 window.localStorage.setItem('_gitclubGameSession', sessionId);
 
 window.setLevel = require('./_methods/setLevel');

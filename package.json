@@ -7,6 +7,7 @@
     "tailwind:watch": "tailwindcss -o ./public/style.css --watch",
     "dev": "next dev",
     "build": "next build",
+    "prettier": "prettier --write ./src ./test ./backend ./db ./pages ./index.js ./build.js ./levels.js ./oso.js ./webpack.config.js",
     "start": "next start",
     "test": "mocha ./test/*.test.js"
   },
@@ -32,6 +33,7 @@
     "@mongoosejs/studio": "0.0.22",
     "dotenv": "16.4.5",
     "mocha": "10.4.0",
+    "prettier": "3.3.3",
     "sinon": "18.0.0"
   }
 }

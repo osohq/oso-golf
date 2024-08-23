@@ -16,6 +16,6 @@ module.exports = {
   rules: {
     'comma-dangle': 'off',
     'space-before-function-paren': 'off',
-    'eol-last': 'warn'
+    'eol-last': 'warn',
   },
 };
