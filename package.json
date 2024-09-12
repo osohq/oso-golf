@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@code-hike/lighter": "^0.9.4",
-    "archetype": "0.13.0",
+    "archetype": "0.13.1",
     "axios": "1.7.4",
     "dedent": "1.5.1",
     "extrovert": "0.0.22",
