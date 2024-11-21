@@ -55,9 +55,7 @@ module.exports = async function handler(params) {
     }
 
     player.levelsCompleted = player.levelsCompleted + 1;
-    player.parPerLevel[level - 1] =
-      player.contextFacts.length - parByLevel[level - 1];
-    player.par = player.parPerLevel.reduce((sum, v) => sum + v);
+    player.scoreLevel(level, parByLevel);
     await player.save();
 
     return { player };
