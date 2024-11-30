@@ -28,7 +28,7 @@ module.exports = async function setLevel(
   state.facts = [];
 
   if (!retainContextFacts) {
-    await api.post('/api/clearContextFacts', {
+    await api.post('/api/clear-context-facts', {
       sessionId: state.sessionId,
     });
   }
