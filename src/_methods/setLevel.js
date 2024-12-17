@@ -1,5 +1,6 @@
 'use strict';
 
+const api = require('../api');
 const levels = require('../../levels');
 
 module.exports = async function setLevel(
@@ -25,4 +26,10 @@ module.exports = async function setLevel(
   state.results = [];
   state.showNextLevelButton = false;
   state.facts = [];
+
+  if (!retainContextFacts) {
+    await api.post('/api/clear-context-facts', {
+      sessionId: state.sessionId,
+    });
+  }
 };
