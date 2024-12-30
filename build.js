@@ -70,7 +70,7 @@ module.exports = async function build(watch) {
 if (process.env.MONGOOSE_STUDIO) {
   // Disable Mongoose Studio in prod, only run in local for now, because we would need to add
   // authentication to safely run Mongoose Studio in prod.
-  require('@mongoosejs/studio/frontend')(`/api/studio`, true).then(() => {
+  require('@mongoosejs/studio/frontend')('/api/studio', true).then(() => {
     execSync(`
     mkdir -p ./public/studio
     cp -r ./node_modules/@mongoosejs/studio/frontend/public/* ./public/studio/
