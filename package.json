@@ -13,7 +13,7 @@
     "test": "mocha ./test/*.test.js"
   },
   "dependencies": {
-    "@code-hike/lighter": "^0.9.4",
+    "@code-hike/lighter": "^1.0.3",
     "archetype": "0.13.1",
     "axios": "1.7.9",
     "dedent": "1.5.1",
