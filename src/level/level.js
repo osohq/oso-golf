@@ -190,14 +190,11 @@ module.exports = (app) =>
       },
       'state.currentLevel': async function (currentLevel) {
         this.highlightedCode = [];
+        const { polarCode } = currentLevel;
         const result =
           lighter == null
-            ? currentLevel.polarCode
-            : await lighter.highlight(
-                currentLevel.polarCode,
-                'polar',
-                'github-light',
-              );
+            ? polarCode
+            : await lighter.highlight(polarCode, 'polar', 'github-light');
         this.highlightedCode = result.lines;
       },
     },
