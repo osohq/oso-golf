@@ -34,26 +34,26 @@ module.exports = async function startGame(params) {
       name,
     });
 
-    await oso.tell(
+    await oso.insert([
       'has_relation',
       { type: 'Repository', id: `${params.sessionId}_osohq/configs` },
       'organization',
       { type: 'Organization', id: 'osohq' },
-    );
+    ]);
 
-    await oso.tell(
+    await oso.insert([
       'has_relation',
       { type: 'Repository', id: `${params.sessionId}_osohq/sample-apps` },
       'organization',
       { type: 'Organization', id: 'osohq' },
-    );
+    ]);
 
-    await oso.tell(
+    await oso.insert([
       'has_relation',
       { type: 'Repository', id: `${params.sessionId}_osohq/nodejs-client` },
       'organization',
       { type: 'Organization', id: 'osohq' },
-    );
+    ]);
 
     return { player };
   } catch (err) {

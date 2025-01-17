@@ -3,11 +3,15 @@
 const BaseComponent = require('../base-component');
 const api = require('../api');
 const bson = require('bson');
-const lighter = require('@code-hike/lighter');
 const runTests = require('../_methods/runTests');
 const setLevel = require('../_methods/setLevel');
 const template = require('./level.html');
 const vanillatoasts = require('vanillatoasts');
+
+// Only import lighter in browser (which works), this require() fails with "ESM required"
+// in Node.js tests.
+const lighter =
+  typeof window === 'undefined' ? null : require('@code-hike/lighter');
 
 const defaultPolarCode = `
 actor User { }
@@ -186,11 +190,11 @@ module.exports = (app) =>
       },
       'state.currentLevel': async function (currentLevel) {
         this.highlightedCode = [];
-        const result = await lighter.highlight(
-          currentLevel.polarCode,
-          'polar',
-          'github-light',
-        );
+        const { polarCode } = currentLevel;
+        const result =
+          lighter == null
+            ? polarCode
+            : await lighter.highlight(polarCode, 'polar', 'github-light');
         this.highlightedCode = result.lines;
       },
     },

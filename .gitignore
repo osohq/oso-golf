@@ -132,3 +132,9 @@ dist
 public/app.js
 public/vendor
 public/style.css
+public/studio
+
+# Oso local dev server
+.oso
+*.tar.gz
+standalone

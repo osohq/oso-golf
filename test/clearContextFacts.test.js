@@ -11,7 +11,7 @@ describe('clearContextFacts', function () {
     await Player.deleteMany({});
   });
 
-  it("empties the player's contextFacts by sessionId", async function () {
+  it('empties player contextFacts property by sessionId', async function () {
     const { _id, sessionId } = await Player.create({
       sessionId: 'test-clearContextFacts',
       name: 'John Smith',

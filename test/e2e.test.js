@@ -5,13 +5,29 @@ require('./setup');
 const Player = require('../db/player');
 const assert = require('assert');
 const backend = require('../backend');
-const components = require('../src/components');
 const connect = require('../db/connect');
 const express = require('express');
 const { createSSRApp, provide, reactive } = require('vue');
 const oso = require('../oso');
 const levels = require('../levels');
 const { renderToString } = require('vue/server-renderer');
+
+const components = {};
+const fs = require('fs');
+const path = require('path');
+const componentDirectories = fs.readdirSync(path.join(__dirname, '..', 'src'));
+componentDirectories.forEach((directoryName) => {
+  const componentPath = path.join(
+    __dirname,
+    '..',
+    'src',
+    directoryName,
+    `${directoryName}.js`,
+  );
+  if (fs.existsSync(componentPath)) {
+    components[directoryName] = require(componentPath);
+  }
+});
 
 const policy = require('fs').readFileSync(
   `${__dirname}/../src/policy.polar`,

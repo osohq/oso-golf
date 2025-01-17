@@ -1,6 +1,5 @@
 'use strict';
 
-const components = require('./components');
 const levels = require('../levels');
 const vanillatoasts = require('vanillatoasts');
 
@@ -59,9 +58,28 @@ const app = Vue.createApp({
   },
 });
 
-for (const component of Object.values(components)) {
-  component(app);
-}
+// Import all components
+const requireComponents = require.context(
+  '.', // Relative path (current directory)
+  true, // Include subdirectories
+);
+// Object to store the imported modules
+const components = {};
+// Iterate over the matched keys (file paths)
+requireComponents.keys().forEach((filePath) => {
+  // Extract directory name and file name from the path
+  const pieces = filePath.split('/');
+  const directoryName = pieces[pieces.length - 2];
+  const fileName = pieces[pieces.length - 1].replace('.js', '');
+
+  // Check if the file name matches the directory name
+  if (directoryName === fileName) {
+    components[directoryName] = requireComponents(filePath);
+    components[directoryName](app);
+  }
+});
+
+console.log('Loaded components', Object.keys(components).sort());
 
 const router = VueRouter.createRouter({
   history: VueRouter.createWebHistory(),

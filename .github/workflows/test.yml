@@ -25,7 +25,7 @@ jobs:
 
       - name: Setup Oso binary
         run: |
-          wget https://oso-local-development-binary.s3.amazonaws.com/oso-local-development-binary-linux-x86_64.tar.gz
+          wget https://oso-local-development-binary.s3.amazonaws.com/latest/oso-local-development-binary-linux-x86_64.tar.gz
           tar xf oso-local-development-binary-linux-x86_64.tar.gz
           chmod +x ./standalone
           ./standalone &
